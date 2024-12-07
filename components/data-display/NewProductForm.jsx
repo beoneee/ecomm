@@ -16,7 +16,7 @@ import ToggleInput from "@/components/forms/FormInput/Toggleinput";
 import { generateUserCode } from "@/lib/generateUserCode";
 import { useRouter } from "next/navigation";
 
-export default function NewProductForm({categories,farmers}) {
+export default function NewProductForm({ categories, farmers }) {
   const [imageUrl, setImageUrl] = useState("");
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,28 +29,34 @@ export default function NewProductForm({categories,farmers}) {
   } = useForm({
     defaultValues: {
       isActive: true,
-      isWholesale: false
+      isWholesale: false,
     },
   });
   const isActive = watch("isActive");
   const isWholesale = watch("isWholesale");
   console.log(isActive);
-  const router =useRouter()
-  function redirect(){
+  const router = useRouter();
+  function redirect() {
     router.push("/dashboard/products");
   }
   async function onSubmit(data) {
     const slug = generateSlug(data.title);
-    const productCode= generateUserCode('LLP', data.title)
+    const productCode = generateUserCode("LLP", data.title);
     data.slug = slug;
     data.imageUrl = imageUrl;
     data.tags = tags;
-    data.qty=1,
-    data.productCode = productCode;
+    (data.qty = 1), (data.productCode = productCode);
     console.log(data);
-    makePostRequest(setLoading, "api/products", data, "Product", reset,redirect);
+    makePostRequest(
+      setLoading,
+      "api/products",
+      data,
+      "Product",
+      reset,
+      redirect
+    );
     setImageUrl("");
-    setTags([])
+    setTags([]);
   }
 
   return (
@@ -97,7 +103,7 @@ export default function NewProductForm({categories,farmers}) {
             type="number"
             className="w-full"
           />
-           <TextInput
+          <TextInput
             label="Product Stock"
             name="productStock"
             register={register}
@@ -128,36 +134,34 @@ export default function NewProductForm({categories,farmers}) {
             className="w-full"
             options={farmers}
           />
-            <ToggleInput
+          <ToggleInput
             label="Supports Wholesale Selling "
             name="isWholesale"
             trueTitle="Supported"
             falseTitle="Not Supported"
             register={register}
           />
-           
-            {
-              isWholesale&&(
-                <>
-                 <TextInput
-            label="Wholesale Price"
-            name="wholesalePrice"
-            register={register}
-            errors={errors}
-            type="number"
-            className="w-full"
-          />
-            <TextInput
-            label="Minimum Wholesale Qty"
-            name="wholesaleQty"
-            register={register}
-            errors={errors}
-            type="number"
-            className="w-full"
-          />  
-                </>
-              )
-            }
+
+          {isWholesale && (
+            <>
+              <TextInput
+                label="Wholesale Price"
+                name="wholesalePrice"
+                register={register}
+                errors={errors}
+                type="number"
+                className="w-full"
+              />
+              <TextInput
+                label="Minimum Wholesale Qty"
+                name="wholesaleQty"
+                register={register}
+                errors={errors}
+                type="number"
+                className="w-full"
+              />
+            </>
+          )}
 
           <ImageInput
             imageUrl={imageUrl}

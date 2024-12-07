@@ -1,4 +1,5 @@
 "use client";
+import { BaggageClaim, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,7 +11,7 @@ export default function CategoryCarousel({ products }) {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 5,
-      slidesToSlide: 3, // optional, default to 1.
+      slidesToSlide: 4, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -44,25 +45,30 @@ export default function CategoryCarousel({ products }) {
     >
       {products.map((product, i) => {
         return (
-          <div key={i} href="#" className="rounded-lg mr-3">
-            <Link href="#">
+          <div key={i} className="rounded-lg mr-3 bg-white overflow-hidden border shadow dark:bg-black">
+            <Link href={`/products/${product.slug}`}>
               <Image
                 width={556}
                 height={556}
-                className="w-full rounded-3xl object-cover border border-purple-300 "
+                className="w-full h-48 object-cover "
                 src={product.imageUrl}
                 alt={product.title}
               />
             </Link>
-            <Link href="#">
-              <h2 className="dark:text-white text-black mt-2 text-center">
+          <div className="px-4">
+          <Link href={`/products/${product.slug}`}>
+              <h2 className="dark:text-white text-black my-2 text-center font-semibold">
                 {product.title}
               </h2>
             </Link>
-            <div className="flex">
-              <p>{product.price}</p>
-              <button>Add</button>
+            <div className="flex items-center justify-between gap-2 pb-3 dark:text-slate-200 text-slate-800">
+              <p> UGX {product.salePrice}</p>
+              <button className="flex items-center space-x-2 bg-purple-300 px-4 py-2 rounded-md text-white">
+                <ShoppingCart/>
+                <span>Add</span>
+              </button>
             </div>
+          </div>
           </div>
         );
       })}
