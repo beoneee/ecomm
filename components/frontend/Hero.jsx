@@ -1,5 +1,4 @@
 
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import HeroCarousel from "./HeroCarousel";
@@ -12,7 +11,7 @@ export default async function Hero() {
   return (
     <div className="grid grid-cols-12 gap-8 mb-6 ">
      <SidebarCategories/>
-      <div className="sm:col-span-7 col-span-full bg-blue-600 rounded-md">
+      <div className="sm:col-span-7 col-span-full rounded-md">
         <HeroCarousel banners={banners} />
       </div>
       <div className="col-span-2 hidden sm:block bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 text-slate-800 overflow-hidden ">

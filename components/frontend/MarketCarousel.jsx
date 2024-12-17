@@ -51,6 +51,7 @@ export default function MarketCarousel({markets}) {
               className="w-full rounded-2xl "
               src={markets.logoUrl}
               alt={markets.title}
+              priority={true}
             />
             <h2 className="dark:text-slate-200 text-slate-800  mt-2 text-center">{markets.title}</h2>
           </Link>

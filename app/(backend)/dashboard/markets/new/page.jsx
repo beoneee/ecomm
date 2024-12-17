@@ -1,4 +1,5 @@
 import NewMarketForm from "@/components/data-display/NewMarketForm";
+import FormHeader from "@/components/forms/FormHeader";
 import { getData } from "@/lib/getData";
 import React from "react";
 
@@ -12,5 +13,10 @@ export default async function NewMarket() {
     }
   })
 
-  return <NewMarketForm categories={categories} />;
+  return (
+    <div>
+      <FormHeader title="New Market"/>
+      <NewMarketForm categories={categories} />;
+    </div>
+  )
 }

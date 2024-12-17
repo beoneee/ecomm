@@ -55,6 +55,7 @@ export default function TrainingCarousel({ trainings }) {
                 width={556}
                 height={556}
                 className="w-full h-48 object-cover "
+                priority={true}
               />
             </Link>
             <h2 className="dark:text-white text-black my-2 text-center text-xl">

@@ -4,6 +4,28 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     const farmerData = await request.json();
+    const existingUser = await db.user.findUnique({
+      where: {
+        id:farmerData.userId
+      },
+    });
+    if (!existingUser) {
+      return NextResponse.json(
+        {
+          data: null,
+          message: `No User Found`,
+        },
+        { status: 404 }
+      );
+    }
+    const updateUser = await db.user.update({
+      where: {
+        id:farmerData.userId
+      },
+      data:{
+        emailVerified:true
+      }
+    })
     const newFarmerProfile = await db.farmerProfile.create({
       data: {
         code: farmerData.code,
@@ -35,16 +57,23 @@ export async function POST(request) {
 }
 export async function GET(request) {
   try {
-    const profiles = await db.farmerProfile.findMany({
+    const farmers = await db.user.findMany({
       orderBy: {
         createdAt: "desc",
       },
+      where:{
+        role:"FARMER"
+      },
+      include:{
+        farmerProfile:true
+      }
     });
-    return NextResponse.json(profiles);
+    return NextResponse.json(farmers);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       {
-        message: "Failed to Fetch Profile",
+        message: "Failed to Fetch Farmers",
         error,
       },
       { status: 500 }

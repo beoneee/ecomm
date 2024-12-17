@@ -1,5 +1,7 @@
+"use client"
 import {
   AlignJustify,
+  AlignJustifyIcon,
   Bell,
   LayoutDashboard,
   LogOut,
@@ -18,9 +20,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ThemeSwitcherBtn from "@/components/theme/ThemeSwitcherBtn";
+import UserAvatar from "@/components/data-display/UserAvatar";
+import { useSession } from "next-auth/react";
 
 export default function Navbar({ setShowSidebar, showSidebar }) {
+// console.log(data:session,status)
+const {data:session,status}=useSession()
+
+if (status==="loading"){
+  return <p>Loading...</p>
+}
+
   return (
     <div className="flex items-center justify-between bg-slate-50 dark:bg-neutral-900 text-slate-50 h-20 px-8 py-8 fixed top-0 w-full z-50 sm:pr-[20rem]">
       {/* Icon */}
@@ -28,11 +38,10 @@ export default function Navbar({ setShowSidebar, showSidebar }) {
         onClick={() => setShowSidebar(!showSidebar)}
         className="dark:text-white text-black"
       >
-        <AlignJustify />
+        <AlignJustifyIcon />
       </button>
       {/* 3 Icons */}
       <div className="flex space-x-3 relative">
-        <ThemeSwitcherBtn />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -55,6 +64,7 @@ export default function Navbar({ setShowSidebar, showSidebar }) {
                   width={300}
                   height={300}
                   className="w-8 h-8 rounded-full object-cover"
+                  priority={true}
                 />
                 <div>
                   <p className="flex flex-col space-y-1">
@@ -76,41 +86,8 @@ export default function Navbar({ setShowSidebar, showSidebar }) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div>
-              <Image
-                src={Img}
-                alt="User profile"
-                width={300}
-                height={300}
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="py-2 px-4 pr-8">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className="flex items-center space-x-3">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Dashboard</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex items-center space-x-3">
-                <User2 className="mr-2 h-4 w-4" />
-                <span>Edit Profile</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex items-center space-x-3">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
-              </div>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {status==="authenticated" && <UserAvatar user={session?.user}/>}
+        {/* <UserAvatar user={session?.user}/> */}
       </div>
     </div>
   );

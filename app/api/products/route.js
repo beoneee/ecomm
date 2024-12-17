@@ -148,7 +148,7 @@ export async function POST(req) {
       return NextResponse.json(
         {
           data: null,
-          message: "Product already exists",
+          message: `Product (${title}) already exists`,
         },
         { status: 409 }
       );

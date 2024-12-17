@@ -1,40 +1,55 @@
-"use client"
+"use client";
 import Image from "next/image";
-import { Carousel } from "nuka-carousel";
-import banner1 from "@/public/asset/banner1.jpg";
-import banner2 from "@/public/asset/banner2.png";
-import banner3 from "@/public/asset/banner3.jpg";
-import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
-export default function HeroCarousel({banners}) {
-  const image = [
-    {
-      alt: "banner1",
-      src: banner1,
-    },
-    {
-      alt: "banner1",
-      src: banner1,
-    },
-  ];
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { CircleChevronLeftIcon, CircleChevronRightIcon } from "lucide-react";
+
+export default function HeroCarousel({ banners }) {
   return (
-    <Carousel wrapAround autoplay  className="rounded-md overflow-hidden ">
-     {
-      banners.map((banner,i) =>{
-        return (
-          <Link  href={banner.link} key={i} className="w-full h-full">
-            <Image
-              alt={banner.title}
-              src={banner.imageUrl}
-              width={712}
-              height={384} 
-              className="w-full"
-            />
-          </Link>
-        )  // Adjust height as needed
-      })
-     }
-    
-    </Carousel>
+    <div className="swiper-container relative">
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={{
+          prevEl: ".swiper-button-prev",
+          nextEl: ".swiper-button-next",
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+      >
+        {banners.map((banner, i) => {
+          return (
+            <SwiperSlide key={i} href={banner.imageUrl}>
+              <Image
+                width={712}
+                height={384}
+                src={banner.imageUrl}
+                className="w-full"
+                alt={banner.title}
+                priority={true}
+              />
+            </SwiperSlide>
+          );
+        })}
+        <div className="swiper-button-prev">
+          <CircleChevronLeftIcon className="text-neutral-100" />
+        </div>
+        <div className="swiper-button-next">
+          <CircleChevronRightIcon className="text-neutral-100" />
+        </div>
+      </Swiper>
+    </div>
   );
 }

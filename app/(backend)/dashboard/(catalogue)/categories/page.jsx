@@ -1,9 +1,12 @@
 import PageHeader from "@/components/backend/layout/PageHeader";
-import TableActions from "@/components/backend/layout/TableActions";
-import { Search, Trash2, Download } from "lucide-react";
+import DataTable from "@/components/data-table-components/DataTable";
 import React from "react";
 
-export default function page() {
+import { getData } from "@/lib/getData";
+import { columns } from "./columns";
+
+export default async function page() {
+  const categories = await getData("categories");
   return (
     <div>
       <PageHeader
@@ -11,10 +14,9 @@ export default function page() {
         href="/dashboard/categories/new"
         linkTitle="Add Category"
       />
-      <TableActions />
 
-      <div className="py-8">
-        <h2>Table</h2>
+      <div className="py-0 ">
+        <DataTable data={categories} columns={columns} />
       </div>
     </div>
   );

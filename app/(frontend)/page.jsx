@@ -2,13 +2,20 @@ import CategoryList from "@/components/frontend/CategoryList";
 import CommunityTrainings from "@/components/frontend/CommunityTrainings";
 import Hero from "@/components/frontend/Hero";
 import MartketList from "@/components/frontend/MartketList";
+import { authOptions } from "@/lib/authOptions";
 import { getData } from "@/lib/getData";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 import React from "react";
 
-export default async function page() {
-  const categories = await getData('categories')
+export default async function Home() {
+  const categoriesData = await getData('categories');
+  const categories = categoriesData.filter((category)=>{
+    return category.products.length > 3
+  })
+  const session =await getServerSession(authOptions)
+  // console.log(categories)
   return (
     <div className=" min-h-screen">
       <Hero />

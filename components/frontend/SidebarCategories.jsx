@@ -24,6 +24,7 @@ export default async function SidebarCategories() {
                 className="w-12 h-12 rounded-full object-cover border border-purple-300 "
                 src={category.imageUrl}
                 alt={category.title}
+                priority={true}
               />
               <span className="text-sm">{category.title}</span>
             </Link>

@@ -1,8 +1,9 @@
 import NewProductForm from "@/components/data-display/NewProductForm";
+import FormHeader from "@/components/forms/FormHeader";
 import { getData } from "@/lib/getData";
 import React from "react";
 
-export default async function page() {
+export default async function NewProduct() {
   const categoriesData = await getData("categories");
   const usersData = await getData("users");
   const farmerData = usersData.filter((user) => user.role === "FARMER");
@@ -19,5 +20,11 @@ export default async function page() {
     };
   });
 
-  return <NewProductForm categories={categories} farmers={farmers} />;
+  return (
+    <div>
+      <FormHeader title="New Product"/>
+      <NewProductForm categories={categories} farmers={farmers} />;
+    </div>
+  )
+  
 }

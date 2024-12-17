@@ -2,7 +2,6 @@
 import { withUt } from "uploadthing/tw";
 const flowbite = require("flowbite-react/tailwind");
 export default withUt({
-  darkMode: ["class"],
   content: [
     // "./node_modules/flowbite-react/**/*.js",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",

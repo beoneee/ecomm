@@ -1,44 +1,54 @@
+"use client"
 import React from "react";
 import SearchForm from "./SearchForm";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo.png";
-import { HelpCircle, ShoppingCart, User } from "lucide-react";
-import ThemeSwitcherBtn from "../theme/ThemeSwitcherBtn";
+import { ShoppingCart, User } from "lucide-react";
 import HelpModal from "./HelpModal";
-
+import CartCount from "./CartCount";
+import { useSession } from "next-auth/react";
+import Loading from "@/app/loading";
+import UserAvatar from "../data-display/UserAvatar";
 
 export default function Navbar() {
+  const {data:session,status} =useSession()
+  if(status === "loading"){
+    return <p>Loading..</p>
+  }
   return (
     <div className="bg-white dark:bg-slate-700">
       <div className="flex items-center justify-between py-3 max-w-7xl mx-auto px-8 gap-8">
         <Link className="" href="/">
-          <Image src={logo} alt="limifood logo" className="w-24" />
+          <Image
+            src={logo}
+            alt="limifood logo"
+            className="w-24"
+            priority={true}
+          />
         </Link>
         {/* SEARCH */}
         <div className="flex-grow">
           <SearchForm />
         </div>
         <div className="flex gap-8">
-          <Link href="/login" className="flex items-center space-x-1 text-green-950 dark:text-slate-100">
+        {
+          status === "unauthenticated"?(
+            <Link
+            href="/login"
+            className="flex items-center space-x-1 text-green-950 dark:text-slate-100"
+          >
             <User />
             <span>Login</span>
           </Link>
-          <HelpModal/>
-          <Link href="/cart"
-                type="button"
-                className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-transparent rounded-lg "
-              >
-                <ShoppingCart className="text-lime-700 dark:text-white" />
-                <span className="sr-only">Cart</span>
-                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500  rounded-full -top-0 end-0 dark:border-gray-900">
-                  20
-                </div>
-              </Link>
+          ):(
+            <UserAvatar user={session?.user}/>
+          )
+        }
+          <HelpModal />
+         <CartCount/>
         </div>
-        <ThemeSwitcherBtn />
       </div>
     </div>
   );
 }
-

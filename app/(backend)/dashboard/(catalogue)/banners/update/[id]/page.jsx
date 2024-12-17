@@ -1,9 +1,17 @@
+
+import BannerForm from '@/components/data-display/Forms/BannerForm'
+import FormHeader from '@/components/forms/FormHeader'
+import { getData } from '@/lib/getData'
 import React from 'react'
 
-export default function UpdateBanner() {
+export default async function UpdateBanner({params:{id}}) {
+  const banner = await getData(`banners/${id}`)
+  console.log(banner)
   return (
     <div>
-      <h2>Update Banner</h2>
-    </div>
+    <FormHeader title="Update banner" />
+    <BannerForm updateData={banner}/>
+  </div>
   )
 }
+
